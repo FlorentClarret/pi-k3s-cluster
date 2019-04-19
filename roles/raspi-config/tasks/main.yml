@@ -1,0 +1,27 @@
+---
+
+- name: Rename the host
+  shell: "raspi-config nonint do_hostname {{ inventory_hostname }}"
+
+- name: Change locale
+  shell: "raspi-config nonint do_change_locale fr_FR.UTF-8"
+
+- name: Change timezone
+  shell: "raspi-config nonint do_change_timezone Europe/Paris"
+
+- name: Expand Filesystem
+  shell: "raspi-config nonint do_expand_rootfs"
+
+- name: Set GPU memory split
+  shell: "raspi-config nonint do_memory_split 16"
+
+- name: Reboot the host
+  reboot:
+
+- name: Waiting for the host to come back
+  local_action:
+    wait_for host={{ ansible_host }}
+    port=22
+    state=started
+    delay=5
+  become: false
