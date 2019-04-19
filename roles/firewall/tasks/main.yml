@@ -12,7 +12,6 @@
 - name: Enable UFW at boot
   ufw:
     state: enabled
-    policy: reject
 
 - name: Limit connection attempts on ssh
   ufw:
