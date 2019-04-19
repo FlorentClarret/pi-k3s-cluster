@@ -1,0 +1,33 @@
+---
+
+- name: Update apt cache
+  apt: update_cache=yes
+
+- name: Install squid-deb-proxy-client
+  apt:
+    name: "squid-deb-proxy-client"
+
+- name: Update apt cache with the proxy
+  apt: update_cache=yes
+
+- name: Upgrade all safe packages
+  apt: upgrade=safe
+
+- name: Update all packages to the latest version
+  apt:
+    upgrade: dist
+
+- name: Remove dependencies that are no longer required
+  apt:
+    autoremove: yes
+
+- name: Reboot the host
+  reboot:
+
+- name: Waiting for the host to come back
+  local_action:
+    wait_for host={{ ansible_host }}
+    port=22
+    state=started
+    delay=5
+  become: false
