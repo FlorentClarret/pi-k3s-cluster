@@ -10,7 +10,6 @@
     - mc
     - less
     - screen
-    - glances
 
 - name: Create the repository folder
   file:
