@@ -1,0 +1,50 @@
+---
+
+- name: Install needed packages for the user
+  apt:
+    name: "{{ item }}"
+  loop:
+    - git
+    - most
+    - vim
+    - mc
+    - less
+    - screen
+    - glances
+
+- name: Create the repository folder
+  file:
+    path: ~/repositories
+    state: directory
+
+- name: Clone the configuration repositories
+  git:
+    repo: "{{ item.url }}"
+    dest: "~/repositories/{{ item.name }}"
+  loop:
+    - { name: 'home-configuration', url: 'https://github.com/FlorentClarret/home-configuration' }
+  become: yes
+  become_user: "{{ user_name }}"
+
+- name: Deploy home configuration
+  command: chdir=~/repositories/home-configuration/ bash install_home_configuration.bash
+  become: yes
+  become_user: "{{ user_name }}"
+
+- name: Add home configuration to bashrc
+  shell: grep 'source ~/.aliases/load.sh' ~/.bashrc || echo "source ~/.aliases/load.sh\n" >> ~/.bashrc
+  become: yes
+  become_user: "{{ user_name }}"
+
+- name: Make sur ssh folder exists
+  file:
+    path: /home/{{ user_name }}/.ssh
+    state: directory
+  become_user: "{{ user_name }}"
+
+- name: Deploy ssh public key
+  authorized_key:
+    user: "{{ user_name }}"
+    state: present
+    key: "{{ lookup('file', 'id_rsa.pub') }}"
+  become_user: "{{ user_name }}"
