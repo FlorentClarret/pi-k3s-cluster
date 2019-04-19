@@ -1,6 +1,6 @@
 [node]
 
-10.0.5.100 # master
-#10.0.5.101 # slave1
-#10.0.5.102 # slave2
-#10.0.5.103 # slave3
+master ansible_host=10.0.5.100
+slave1 ansible_host=10.0.5.101
+slave2 ansible_host=10.0.5.102
+slave3 ansible_host=10.0.5.103
