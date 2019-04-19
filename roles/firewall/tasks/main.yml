@@ -1,0 +1,35 @@
+---
+
+- name: Install ufw
+  apt:
+    name: ufw
+
+- name: Allow ssh connections
+  ufw:
+    rule: allow
+    name: ssh
+
+- name: Enable UFW at boot
+  ufw:
+    state: enabled
+    policy: reject
+
+- name: Limit connection attempts on ssh
+  ufw:
+    rule: limit
+    port: ssh
+
+- name: Enable UFW at boot
+  ufw:
+    state: reloaded
+
+- name: Reboot the host
+  reboot:
+
+- name: Waiting for the host to come back
+  local_action:
+    wait_for host={{ ansible_host }}
+    port=22
+    state=started
+    delay=5
+  become: false
