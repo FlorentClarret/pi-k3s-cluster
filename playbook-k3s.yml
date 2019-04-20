@@ -8,7 +8,7 @@
     - update
     - firewall
     - user
-    - k3s/common
+    - k3s/common/deploy
 
 - name: Configure the master
   hosts: master
