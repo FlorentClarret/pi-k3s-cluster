@@ -1,0 +1,32 @@
+---
+
+- name: Clean up the tmp folder
+  become: false
+  run_once: true
+  local_action: >
+    file path=tmp/k3s-armhf state=absent
+
+- name: Locally download k3s
+  become: false
+  run_once: true
+  local_action: >
+    get_url url=https://github.com/rancher/k3s/releases/download/{{ k3s_version }}/k3s-armhf dest=tmp/
+
+- name: Delete previous k3s
+  file:
+    path: /usr/local/bin/k3s
+    state: absent
+
+- name: Deploy k3s to the host
+  copy:
+    src: tmp/k3s-armhf
+    dest: /usr/local/bin/k3s
+    owner: root
+    group: root
+    mode: 755
+
+- name: Clean up the tmp folder
+  become: false
+  run_once: true
+  local_action: >
+    file path=tmp/k3s-armhf state=absent

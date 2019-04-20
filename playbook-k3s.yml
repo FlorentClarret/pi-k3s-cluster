@@ -1,0 +1,23 @@
+---
+- name: Common configuration for all the hosts in the cluster
+  hosts: all
+  become: true
+  roles:
+    - raspi-config
+    - raspian
+    - update
+    - firewall
+    - user
+    - k3s/common
+
+- name: Configure the master
+  hosts: master
+  become: true
+  roles:
+    - k3s/master
+
+- name: Configure the slaves
+  hosts: slave
+  become: true
+  roles:
+    - k3s/slave
