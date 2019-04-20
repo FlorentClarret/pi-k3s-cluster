@@ -1,0 +1,4 @@
+---
+
+- name: shutdown
+  command: /sbin/shutdown -h now

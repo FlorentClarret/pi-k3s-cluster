@@ -1,0 +1,8 @@
+---
+
+- name: Shut down the cluster
+  hosts: all
+  roles:
+    - shutdown
+  become: true
+
