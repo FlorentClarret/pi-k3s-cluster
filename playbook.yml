@@ -1,6 +1,6 @@
 ---
 - name: Ansible Playbook to configure my Raspberry Pi cluster
-  hosts: node
+  hosts: all
   roles:
     - raspi-config
     - update

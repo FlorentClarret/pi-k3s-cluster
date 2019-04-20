@@ -10,10 +10,10 @@
 - name: Update apt cache with the proxy
   apt: update_cache=yes
 
-- name: Upgrade all safe packages
+- name: Upgrade all.yml safe packages
   apt: upgrade=safe
 
-- name: Update all packages to the latest version
+- name: Update all.yml packages to the latest version
   apt:
     upgrade: dist
 
