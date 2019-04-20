@@ -4,13 +4,13 @@
   become: false
   run_once: true
   local_action: >
-    file path=tmp/k3s-armhf state=absent
+    file path={{ temp_folder }}/k3s-armhf state=absent
 
 - name: Locally download k3s
   become: false
   run_once: true
   local_action: >
-    get_url url=https://github.com/rancher/k3s/releases/download/{{ k3s_version }}/k3s-armhf dest=tmp/
+    get_url url=https://github.com/rancher/k3s/releases/download/{{ k3s_version }}/k3s-armhf dest={{ temp_folder }}
 
 - name: Delete previous k3s
   file:
@@ -19,7 +19,7 @@
 
 - name: Deploy k3s to the host
   copy:
-    src: tmp/k3s-armhf
+    src: "{{ temp_folder }}/k3s-armhf"
     dest: /usr/local/bin/k3s
     owner: root
     group: root
@@ -29,4 +29,4 @@
   become: false
   run_once: true
   local_action: >
-    file path=tmp/k3s-armhf state=absent
+    file path={{ temp_folder }}/k3s-armhf state=absent

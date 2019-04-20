@@ -9,3 +9,4 @@ ansible_ssh_pass: raspberry
 user_name: pi
 
 k3s_version: v0.4.0
+temp_folder: tmp/
