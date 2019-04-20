@@ -1,0 +1,16 @@
+[Unit]
+    Description=Lightweight Kubernetes
+    Documentation=https://k3s.io
+    After=network.target
+
+[Service]
+    ExecStart=/usr/local/bin/k3s agent --server https://{{ master_address }}:6443 --token TODO
+    KillMode=process
+    Delegate=yes
+    LimitNOFILE=infinity
+    LimitNPROC=infinity
+    LimitCORE=infinity
+    TasksMax=infinity
+
+[Install]
+    WantedBy=multi-user.target
