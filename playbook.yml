@@ -3,6 +3,7 @@
   hosts: all
   roles:
     - raspi-config
+    - raspian
     - update
     - firewall
     - user

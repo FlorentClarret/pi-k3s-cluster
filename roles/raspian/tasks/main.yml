@@ -1,0 +1,19 @@
+---
+
+- name: Activating cgroup on Raspbian
+  lineinfile:
+    path: /boot/cmdline.txt
+    regexp: '^(.*rootwait)$'
+    line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory'
+    backrefs: true
+
+- name: Reboot the host
+  reboot:
+
+- name: Waiting for the host to come back
+  local_action:
+    wait_for host={{ ansible_host }}
+    port=22
+    state=started
+    delay=5
+  become: false
