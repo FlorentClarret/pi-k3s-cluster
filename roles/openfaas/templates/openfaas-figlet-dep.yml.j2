@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openfaas-figlet
+  labels:
+   app: openfaas-figlet
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: openfaas-figlet
+  template:
+    metadata:
+      labels:
+        app: openfaas-figlet
+    spec:
+      containers:
+      - name: openfaas-figlet
+        image: functions/figlet:latest-armhf
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          protocol: TCP

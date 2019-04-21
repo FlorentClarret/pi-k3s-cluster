@@ -1,0 +1,23 @@
+---
+
+- name: Create a folder for openfaas files
+  file:
+    path: /home/{{ user_name }}/openfaas/openfaas-figlet
+    state: directory
+  become_user: "{{ user_name }}"
+
+- name: Deploy openfaas-figlet-svc.yml file
+  template:
+    src: "openfaas-figlet-svc.yml.j2"
+    dest: "/home/{{ user_name }}/openfaas/openfaas-figlet/openfaas-figlet-svc.yml"
+  become_user: "{{ user_name }}"
+
+- name: Deploy openfaas-figlet-dep.yml file
+  template:
+    src: "openfaas-figlet-dep.yml.j2"
+    dest: "/home/{{ user_name }}/openfaas/openfaas-figlet/openfaas-figlet-dep.yml"
+  become_user: "{{ user_name }}"
+
+- name: Start the openfaas resource
+  shell: k3s kubectl apply -f /home/{{ user_name }}/openfaas/openfaas-figlet/openfaas-figlet-dep.yml,/home/{{ user_name }}/openfaas/openfaas-figlet/openfaas-figlet-svc.yml
+  become: true

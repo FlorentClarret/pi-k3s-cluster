@@ -11,17 +11,13 @@
     state: restarted
     enabled: yes
 
-- name: Allow ssh connections
-  ufw:
-    rule: allow
-    name: ssh
-
 - name: Allow connections
   ufw:
     rule: allow
     port: "{{ item }}"
   loop:
     - 8472
+    - 22
 
 - name: Allow connections for the master
   ufw:
@@ -29,6 +25,7 @@
     port: "{{ item }}"
   loop:
     - 6443
+    - 31111
   when: '"master" in group_names'
 
 - name: Limit connection attempts on ssh
