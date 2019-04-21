@@ -4,7 +4,7 @@
     After=network.target
 
 [Service]
-    ExecStart=/usr/local/bin/k3s agent --server https://{{ master_address }}:6443 --token TODO
+    ExecStart=/usr/local/bin/k3s agent --server https://{{ master_address }}:6443 --token {{ hostvars[groups['master'][0]]['master_token'] }}
     KillMode=process
     Delegate=yes
     LimitNOFILE=infinity

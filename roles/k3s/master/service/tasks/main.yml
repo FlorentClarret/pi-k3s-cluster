@@ -14,3 +14,13 @@
     daemon_reload: yes
     state: restarted
     enabled: yes
+
+- name: Read token from the master configuration
+  become: true
+  slurp:
+    src: /var/lib/rancher/k3s/server/node-token
+  register: node_token
+
+- name: Save the master token
+  set_fact:
+    master_token: "{{ node_token.content | b64decode | regex_replace('\n', '') }}"
