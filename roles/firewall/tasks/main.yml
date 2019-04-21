@@ -9,6 +9,12 @@
     rule: allow
     name: ssh
 
+- name: Allow k3s connections for the master
+  ufw:
+    rule: allow
+    port: 6443
+  when: '"master" in group_names'
+
 - name: Enable UFW at boot
   ufw:
     state: enabled
