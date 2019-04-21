@@ -4,37 +4,40 @@
   apt:
     name: ufw
 
+- name: Enable and start ufw
+  systemd:
+    name: ufw
+    daemon_reload: yes
+    state: restarted
+    enabled: yes
+
 - name: Allow ssh connections
   ufw:
     rule: allow
     name: ssh
 
-- name: Allow k3s connections for the master
+- name: Allow connections
   ufw:
     rule: allow
-    port: 6443
-  when: '"master" in group_names'
+    port: "{{ item }}"
+  loop:
+    - 8472
 
-- name: Enable UFW at boot
+- name: Allow connections for the master
   ufw:
-    state: enabled
+    rule: allow
+    port: "{{ item }}"
+  loop:
+    - 6443
+  when: '"master" in group_names'
 
 - name: Limit connection attempts on ssh
   ufw:
     rule: limit
     port: ssh
 
-- name: Enable UFW at boot
-  ufw:
-    state: reloaded
-
-- name: Reboot the host
-  reboot:
-
-- name: Waiting for the host to come back
-  local_action:
-    wait_for host={{ ansible_host }}
-    port=22
-    state=started
-    delay=5
-  become: false
+- name: Restart ufw
+  systemd:
+    name: ufw
+    daemon_reload: yes
+    state: restarted
