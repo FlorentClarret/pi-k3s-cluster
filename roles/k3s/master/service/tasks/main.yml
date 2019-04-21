@@ -15,6 +15,10 @@
     state: restarted
     enabled: yes
 
+- name: Wait until the token file is created
+  wait_for:
+    path: /var/lib/rancher/k3s/server/node-token
+
 - name: Read token from the master configuration
   become: true
   slurp:
