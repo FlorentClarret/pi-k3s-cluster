@@ -18,7 +18,7 @@
 - name: Wait until the token file is created
   wait_for:
     path: /var/lib/rancher/k3s/server/node-token
-    timeout: 60
+    timeout: 120
 
 - name: Read token from the master configuration
   become: true
