@@ -1,17 +1,19 @@
 ---
 
 - name: Disable empty password login
-  lineinfile: dest={{ sshd_config }} regexp="^#?PermitEmptyPasswords" line="PermitEmptyPasswords no"
-  notify: restart sshd
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^#?PermitEmptyPasswords" line="PermitEmptyPasswords no"
 
 - name: Disable remote root login
-  lineinfile: dest={{ sshd_config }} regexp="^#?PermitRootLogin" line="PermitRootLogin no"
-  notify: restart sshd
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^#?PermitRootLogin" line="PermitRootLogin no"
 
 - name: Disable password login
-  lineinfile: dest={{ sshd_config }} regexp="^(#\s*)?PasswordAuthentication " line="PasswordAuthentication no"
-  notify: restart sshd
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^(#\s*)?PasswordAuthentication " line="PasswordAuthentication no"
 
 - name: Enable PAM
-  lineinfile: dest={{ sshd_config }} regexp="^#?UsePAM" line="UsePAM yes"
-  notify: restart sshd
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^#?UsePAM" line="UsePAM yes"
+
+- name: Restart sshd
+  systemd:
+    name: ssh
+    daemon_reload: yes
+    state: restarted

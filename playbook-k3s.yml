@@ -8,6 +8,7 @@
     - update
     - firewall
     - user
+    - ssh
     - k3s/common/deploy
 
 - name: Configure the master
