@@ -8,5 +8,5 @@ ansible_ssh_pass: raspberry
 # My variables
 user_name: pi
 
-k3s_version: v0.4.0
+k3s_version: v0.5.0
 temp_folder: tmp/
