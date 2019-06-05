@@ -19,6 +19,7 @@ This cluster allow me to learn about k8s, I'm not using it in "production".
 5. Install my personal configuration and aliases. It's a bit useless, but I like to have my home configured.
 6. Download, deploy and configure k3s as a service both on master and slave nodes.
 7. Deploy the openfaas-figlet function in the cluster
+8. Deploy openfaas itself
 
 ### playbook-shutdown.yml
 
