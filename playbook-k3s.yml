@@ -16,7 +16,7 @@
   become: true
   roles:
     - k3s/master/service
-    - openfaas
+    - openfaas-figlet
 
 - name: Configure the slaves
   hosts: slave
