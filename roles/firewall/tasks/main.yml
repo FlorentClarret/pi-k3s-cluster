@@ -26,6 +26,7 @@
   loop:
     - 6443
     - 31111
+    - 31112
   when: '"master" in group_names'
 
 - name: Limit connection attempts on ssh

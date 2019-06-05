@@ -1,23 +1,18 @@
 ---
 
-- name: Create a folder for openfaas files
-  file:
-    path: /home/{{ user_name }}/openfaas/openfaas-figlet
-    state: directory
+- name: Clone the openfaas repository
+  git:
+    repo: "https://github.com/openfaas/faas-netes"
+    dest: "/home/{{ user_name }}/openfaas/faas-netes"
+  become: yes
   become_user: "{{ user_name }}"
 
-- name: Deploy openfaas-figlet-svc.yml file
-  template:
-    src: "openfaas-figlet-svc.yml.j2"
-    dest: "/home/{{ user_name }}/openfaas/openfaas-figlet/openfaas-figlet-svc.yml"
-  become_user: "{{ user_name }}"
+- name: Apply the openfaas files
+  shell: "k3s kubectl apply -f /home/{{ user_name }}/openfaas/faas-netes/{{ item }}"
+  loop:
+    - namespaces.yml
+    - yaml_armhf
 
-- name: Deploy openfaas-figlet-dep.yml file
-  template:
-    src: "openfaas-figlet-dep.yml.j2"
-    dest: "/home/{{ user_name }}/openfaas/openfaas-figlet/openfaas-figlet-dep.yml"
-  become_user: "{{ user_name }}"
-
-- name: Start the openfaas resource
-  shell: k3s kubectl apply -f /home/{{ user_name }}/openfaas/openfaas-figlet/openfaas-figlet-dep.yml,/home/{{ user_name }}/openfaas/openfaas-figlet/openfaas-figlet-svc.yml
-  become: true
+- name: Install openfaas-cli
+  shell: "curl -sSL https://cli.openfaas.com | sh"
+  become: yes
